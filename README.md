@@ -1,13 +1,13 @@
 # User Management API
 
-A FastAPI-based REST API for user management with MySQL integration, following industry standards and best practices.
+A FastAPI-based REST API for user management with PostgreSQL integration, following industry standards and best practices.
 
 ## Features
 
 - User authentication with JWT tokens
 - User management (CRUD operations)
 - Role-based access control
-- MySQL database integration
+- PostgreSQL database integration
 - Input validation with Pydantic
 - Comprehensive error handling
 - Logging system
@@ -58,7 +58,7 @@ fast-api-server/
 ### Prerequisites
 
 - Python 3.8+
-- MySQL Server
+- PostgreSQL Server
 
 ### Installation
 
@@ -84,19 +84,19 @@ fast-api-server/
 
 4. Create a `.env` file in the root directory with the following variables:
    ```
-   MYSQL_SERVER=localhost
-   MYSQL_USER=your_mysql_user
-   MYSQL_PASSWORD=your_mysql_password
-   MYSQL_DB=user_management
+   POSTGRES_SERVER=localhost
+   POSTGRES_USER=postgres
+   POSTGRES_PASSWORD=your_password
+   POSTGRES_DB=user_management
    SECRET_KEY=your_secret_key
    BACKEND_CORS_ORIGINS=["http://localhost:3000","http://localhost:8000"]
    ```
 
-5. Create the MySQL database:
+5. Create the PostgreSQL database:
    ```
-   mysql -u root -p
+   sudo -u postgres psql
    CREATE DATABASE user_management;
-   EXIT;
+   \q
    ```
 
 6. Run database migrations:
