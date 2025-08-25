@@ -47,7 +47,7 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 @app.get("/")
 def root():
     logger.info("Root endpoint accessed")
-    return {"message": "Welcome to User Management API"}
+    return {"message": "Welcome to User Management API "}
 
 @app.get("/health")
 def health_check():
