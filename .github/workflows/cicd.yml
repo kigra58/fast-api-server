@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: self-hosted   # Uses your EC2 GitHub runner
 
-    env:                   # Set environment variables for all steps
+    env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
@@ -28,9 +28,10 @@ jobs:
       - name: Run tests
         run: |
           source venv/bin/activate
-          pytest || true   # allow pipeline to continue even if tests fail
+          pytest || true   # continue even if tests fail
 
-      - name: Restart FastAPI with Gunicorn
+      - name: Restart FastAPI service
         run: |
-          pkill -f "gunicorn" || true
-          nohup ./venv/bin/gunicorn app.main:app --workers 4 --bind 0.0.0.0:8000 --daemon &
+          sudo systemctl daemon-reload
+          sudo systemctl restart fastapi
+          sudo systemctl status fastapi --no-pager
