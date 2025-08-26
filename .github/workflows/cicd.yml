@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted   # Uses your EC2 GitHub runner
+    runs-on: self-hosted
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -18,16 +18,14 @@ jobs:
       - name: Verify Python version
         run: python3.12 --version 
 
-      - name: Install dependencies in existing venv
+      - name: Install dependencies in persistent venv
         run: |
-          cd /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server
-          ./venv/bin/pip install --upgrade pip
-          ./venv/bin/pip install -r requirements.txt
+          /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server/venv/bin/pip install --upgrade pip
+          /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server/venv/bin/pip install -r requirements.txt
 
-      - name: Run tests (optional)
+      - name: Run tests
         run: |
-          cd /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server
-          ./venv/bin/pytest || true   # continue even if tests fail
+          /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server/venv/bin/pytest || true
 
       - name: Restart FastAPI service
         run: |
