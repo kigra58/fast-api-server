@@ -18,18 +18,22 @@ jobs:
       - name: Verify Python version
         run: python3.12 --version 
 
-      - name: Install dependencies in persistent venv
+      - name: Ensure venv exists and install dependencies
         run: |
-          /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server/venv/bin/pip install --upgrade pip
-          /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server/venv/bin/pip install -r requirements.txt
+          cd /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server
+          if [ ! -d "venv" ]; then
+            python3.12 -m venv venv
+          fi
+          ./venv/bin/pip install --upgrade pip
+          ./venv/bin/pip install -r requirements.txt
 
       - name: Run tests
         run: |
-          /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server/venv/bin/pytest || true
+          cd /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server
+          ./venv/bin/pytest || true
 
       - name: Restart FastAPI service
         run: |
           sudo systemctl daemon-reload
           sudo systemctl restart fastapi
           sudo systemctl status fastapi --no-pager
-          # sudo journalctl -u fastapi --no-pager -n 10
