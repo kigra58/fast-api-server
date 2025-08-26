@@ -25,10 +25,6 @@ class Settings(BaseSettings):
     
     # Database
     DATABASE_URL: Optional[str] = None
-    POSTGRES_SERVER: str = "localhost"
-    POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "password"
-    POSTGRES_DB: str = "user_management"
     SQLALCHEMY_DATABASE_URI: Optional[str] = None
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
@@ -37,7 +33,7 @@ class Settings(BaseSettings):
             return v
         if values.get("DATABASE_URL"):
             return values.get("DATABASE_URL")
-        return f"postgresql://{values.get('POSTGRES_USER')}:{values.get('POSTGRES_PASSWORD')}@{values.get('POSTGRES_SERVER')}/{values.get('POSTGRES_DB')}"
+        raise ValueError("DATABASE_URL must be set")
 
     class Config:
         case_sensitive = True

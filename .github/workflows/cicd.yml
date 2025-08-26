@@ -33,4 +33,4 @@ jobs:
       - name: Restart FastAPI with Gunicorn
         run: |
           pkill -f "gunicorn" || true
-          nohup ./venv/bin/gunicorn app.main:app --workers 4 --bind 0.0.0.0:8000 --daemon &
+          nohup ./venv/bin/gunicorn app.main:app --workers 4 --bind 0.0.0.0:8000 --daemon 
