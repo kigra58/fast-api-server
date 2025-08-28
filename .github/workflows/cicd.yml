@@ -31,7 +31,7 @@ jobs:
           ./venv/bin/pip install --upgrade pip setuptools wheel
           ./venv/bin/pip install --no-cache-dir -r requirements.txt
 
-      - name: Show dependency tree (debug pydantic conflicts)
+      - name: Show dependency 
         run: |
           cd /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server
           ./venv/bin/pip install pipdeptree
