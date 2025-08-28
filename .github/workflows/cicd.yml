@@ -2,21 +2,25 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: ["main", "master"]
+    branches:
+      - development
+      - staging
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ${{ github.ref_name }}-runner   # Matches runner labels per environment
+    environment: ${{ github.ref_name }}
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      ENV: ${{ github.ref_name }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Verify Python version
-        run: python3.12 --version 
+        run: python3.12 --version
 
       - name: Ensure venv exists and install dependencies
         run: |
@@ -36,6 +40,7 @@ jobs:
         run: |
           cd /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server
           echo "DATABASE_URL=${DATABASE_URL}" > .env
+          echo "ENV=${ENV}" >> .env
           sudo systemctl daemon-reload
           sudo systemctl restart fastapi
           sudo systemctl status fastapi --no-pager
