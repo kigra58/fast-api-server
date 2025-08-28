@@ -1,5 +1,6 @@
 import os
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
+from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 
@@ -10,8 +11,12 @@ from app.api.v1.api import api_router
 from app.db.session import engine
 from app.db.base import Base
 
+
 # Setup logging
 setup_logging()
+
+# Setup Jinja2 templates
+templates = Jinja2Templates(directory="app/templates")
 
 # Create logs directory if it doesn't exist
 os.makedirs("logs", exist_ok=True)
@@ -45,9 +50,9 @@ setup_middleware(app)
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 @app.get("/")
-def root():
+def root(request: Request):
     logger.info("Root endpoint accessed")
-    return {"message": "Welcome to User Management API"}
+    return templates.TemplateResponse("welcome.html", {"request": request, "message": "Welcome to the FastAPI application!"})
 
 @app.get("/health")
 def health_check():
