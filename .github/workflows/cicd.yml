@@ -8,7 +8,8 @@ on:
 
 jobs:
   deploy:
-    runs-on: ${{ github.ref_name }}-runner   # Matches runner labels per environment
+    runs-on: self-hosted
+    labels: [${{ github.ref_name }}-runner]   # uses "development-runner" or "staging-runner"
     environment: ${{ github.ref_name }}
 
     env:
@@ -39,8 +40,8 @@ jobs:
       - name: Update systemd environment and restart FastAPI
         run: |
           cd /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server
-          echo "DATABASE_URL=${DATABASE_URL}" > .env
-          echo "ENV=${ENV}" >> .env
+          echo "DATABASE_URL=${DATABASE_URL}" > .env.${ENV}
+          echo "ENV=${ENV}" >> .env.${ENV}
           sudo systemctl daemon-reload
-          sudo systemctl restart fastapi
-          sudo systemctl status fastapi --no-pager
+          sudo systemctl restart fastapi-${ENV}
+          sudo systemctl status fastapi-${ENV} --no-pager
