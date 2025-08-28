@@ -52,7 +52,7 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 @app.get("/")
 def root(request: Request):
     logger.info("Root endpoint accessed")
-    return templates.TemplateResponse("welcome.html", {"request": request, "message": "Welcome to the FastAPI application!"})
+    return templates.TemplateResponse("welcome.html", {"request": request, "message": "Welcome to the FastAPI Application Development Environment!"})
 
 @app.get("/health")
 def health_check():
