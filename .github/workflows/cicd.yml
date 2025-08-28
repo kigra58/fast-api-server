@@ -8,8 +8,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted
-    labels: [${{ github.ref_name }}-runner]   # uses "development-runner" or "staging-runner"
+    runs-on: [self-hosted, ${{ github.ref_name }}-runner]
     environment: ${{ github.ref_name }}
 
     env:
