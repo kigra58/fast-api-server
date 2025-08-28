@@ -28,8 +28,14 @@ jobs:
           if [ ! -d "venv" ]; then
             python3.12 -m venv venv
           fi
-          ./venv/bin/pip install --upgrade pip
-          ./venv/bin/pip install -r requirements.txt
+          ./venv/bin/pip install --upgrade pip setuptools wheel
+          ./venv/bin/pip install --no-cache-dir -r requirements.txt
+
+      - name: Show dependency tree (debug pydantic conflicts)
+        run: |
+          cd /home/ubuntu/actions-runner/_work/fast-api-server/fast-api-server
+          ./venv/bin/pip install pipdeptree
+          ./venv/bin/pipdeptree | grep pydantic || true
 
       - name: Run tests
         run: |
