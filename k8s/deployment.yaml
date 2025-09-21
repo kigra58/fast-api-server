@@ -19,8 +19,6 @@ spec:
         image: biz4grouptest138/fast-api-server:v1
         ports:
         - containerPort: 8000
-        env:
-        - name: DATABASE_URL
-          value: "postgresql://neondb_owner:npg_POzaJCNsI9W0@ep-dark-frost-adl6b3cj-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-        - name: SECRET_KEY
-          value: "supersecretkey123456789abcdefghijklmnopqrstuvwxyz"
+        envFrom:
+        - secretRef:
+            name: fast-api-secrets
