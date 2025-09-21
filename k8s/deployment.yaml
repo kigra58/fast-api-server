@@ -2,8 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fast-api-server
+  labels:
+    app: fast-api-server
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: fast-api-server
@@ -22,11 +24,3 @@ spec:
           value: "postgresql://neondb_owner:npg_POzaJCNsI9W0@ep-dark-frost-adl6b3cj-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
         - name: SECRET_KEY
           value: "supersecretkey123456789abcdefghijklmnopqrstuvwxyz"
-
-        type: NodePort
-        selector:
-          app: fast-api-server
-        ports:
-          - port: 8000
-            targetPort: 8000
-            nodePort: 30080
